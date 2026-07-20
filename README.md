@@ -10,26 +10,24 @@
 - Ubuntu : 22.04
 
 ---
-
 # Tester le projet
 
-1. Initialiser les sous-modules :
+1. Cloner le dépôt :
 
 ```bash
 git clone git@github.com:Antoine310/cva6_timewarp.git
 ```
+
+2. Initialiser les sous-modules :
+
 ```bash
 git submodule update --init --recursive
 ```
-2. Choisir une branch :
-   ```bash
-git checkout branch
-```
 
-3. Aller dans :
+3. Choisir la branche souhaitée :
 
-```text
-depot/verif/sim
+```bash
+git checkout <nom_de_la_branche>
 ```
 
 4. Charger l'environnement :
