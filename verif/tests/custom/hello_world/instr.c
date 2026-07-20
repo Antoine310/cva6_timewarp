@@ -15,17 +15,17 @@ int main() {
         "lw x12, 0(t0)\n"
         "lw x13, 0(t0)\n"
 
-        // Lecture CSR (point critique)
+        // Lecture cycle 
         "csrr %0, cycle\n"
 
-        // Loads juste après → danger multi-consommation
+
         "lw x10, 0(t0)\n"
         "lw x11, 0(t0)\n"
         "lw x12, 0(t0)\n"
         "lw x13, 0(t0)\n"
         "lw x10, 0(t0)\n"
 
-        // Deuxième lecture CSR
+        // Deuxième Lecture cycle 
         "csrr %1, cycle\n"
 
         : "=r"(c1), "=r"(c2)

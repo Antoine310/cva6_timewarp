@@ -168,9 +168,9 @@ module csr_regfile
     output logic [31:0] mcountinhibit_o,
     // RVFI
     output rvfi_probes_csr_t rvfi_csr_o,
-    // Protect - signal lecture csr commit 
+    // Timewarp Protect - signal lecture csr commit 
     output logic csr_lecture_cycle,
-    // Charge rajouter au nombre de cycle en cas de lecture 
+    // Timewarp Charge rajouter au nombre de cycle en cas de lecture 
     input logic [6:0] charge_csr_i
 
 );
@@ -276,7 +276,7 @@ module csr_regfile
 
   logic [63:0] cycle_q, cycle_d;
   logic [63:0] instret_q, instret_d;
-  // Protect
+  // Timewarp Protect
   logic [63:0] cycle_timewarp ;
 
   riscv::pmpcfg_t [63:0] pmpcfg_q, pmpcfg_d, pmpcfg_next;
