@@ -125,7 +125,7 @@ module wt_dcache
   // wbuffer <-> memory
   wbuffer_t [     CVA6Cfg.WtDcacheWbufDepth-1:0]                                  wbuffer_data;
 
-  //Protect 
+  //Timewarp 
   
   assign hit_cache_o = |rd_hit_oh && req_ports_o[1].data_rvalid; 
 

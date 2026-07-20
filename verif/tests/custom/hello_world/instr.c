@@ -8,11 +8,11 @@ int main() {
         "la t0, array\n"
 
         // Warmup load
-        "lw x10, 0(t0)\n"
+        "lw x10, 0(t0)\n" // Load en assembleur 
 
         "lw x11, 0(t0)\n"
         "lw x12, 0(t0)\n"
-        "csrr %2, cycle\n"
+        "csrr %2, cycle\n" // Lecture de cycle en assembleur 
         "csrr %3, cycle\n"
         "lw x10, 0(t0)\n"
         "lw x11, 0(t0)\n"
