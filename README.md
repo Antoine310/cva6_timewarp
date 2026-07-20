@@ -73,7 +73,7 @@ Première version de TimeWarp utilisant une fonction de **stall** pour l'obfusca
 
 ## timewarp_charge
 
-Version utilisant une fonction de **charge** pour l'obfuscation.
+Version utilisant une fonction de charge pour l'obfuscation.
 
 ### Fichiers modifiés
 
@@ -95,7 +95,7 @@ Version utilisant une fonction de **charge** pour l'obfuscation.
 
 ## timewarp_multiload_enclave
 
-Version **stable** avec gestion de plusieurs loads et support des enclaves.
+Version stable Multi-loads et enclaves.
 
 ### Fichiers modifiés
 
@@ -121,7 +121,7 @@ Version **stable** avec gestion de plusieurs loads et support des enclaves.
 
 ## timewarp_dynamique
 
-Version avec **charge dynamique** basée sur un tableau permettant d'estimer le delta entre les hit et les miss.
+Version avec charge dynamique basée sur un tableau permettant d'estimer le delta entre les hit et les miss.
 
 ### Modifications par rapport à `timewarp_multiload_enclave`
 
