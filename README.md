@@ -7,11 +7,14 @@ Utiliser dans le cadre :
     Config : cv64a6_imafdc_sv39
     ISA : rv64gc_zba_zbb_zbs_zbc
 
+
 Commande test : 
     python3 cva6.py   --target cv64a6_imafdc_sv39   --iss "$DV_SIMULATORS"   --iss_yaml cva6.yaml   --c_tests ../tests/custom/hello_world/instr.c   
     --linker ../../config/gen_from_riscv_config/linker/link.ld   --gcc_opts='-static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -g 
     ../tests/custom/common/syscalls.c ../tests/custom/common/crt.S -lgcc -I../tests/custom/env -I../tests/custom/common'   --issrun_opts='+echo_uart'
     
+Première commande a faire :   depot/verif/sim$ source setup-env.sh 
+
 à lancer dans : /verif/sim, changer le test cible dans la commande ici : /tests/custom/hello_world/?.c    
 
 Les deux première version de timewarp pour load individuel : 
