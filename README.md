@@ -37,5 +37,11 @@ Version load multiple stable avec enclave :
             timewarp.sv (contient la logique), wt_cache.sv(fil load hit avec enclave),perf_counter.sv (logique id enclave), wt_dache_mem (logique id enclave) 
   
     Test : test_enclave_multi.c ( scenario de comparaison de boucle avec csr pour verification miss hit ) , hist_perso.c ( scenario d'attaque prime probe )
+  
+Version load multiple avec une charge dynamique : 
 
 - timewarp_dynamique : fonction de charge dynamique avec tableau pour delta entre Hit et miss.
+      . Fichier modifier par rapport à timewarp_multiload_enclave :
+            timewarp.sv (contient la logique - ajout des tableaux et calcul moyenne), load_unit (calcul de latence dans le cache -//timewarp)  
+  
+    Test : test_enclave_multi.c ( scenario de comparaison de boucle avec csr pour verification miss hit ) , hist_perso.c ( scenario d'attaque prime probe )
