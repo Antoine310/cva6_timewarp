@@ -7,6 +7,7 @@
 - Verilator Version : `5.008`
 - Configuration : `cv64a6_imafdc_sv39`
 - ISA : `rv64gc_zba_zbb_zbs_zbc`
+- Ubuntu : 22.04
 
 ---
 
@@ -15,28 +16,35 @@
 1. Initialiser les sous-modules :
 
 ```bash
+git clone git@github.com:Antoine310/cva6_timewarp.git
+```
+```bash
 git submodule update --init --recursive
 ```
+2. Choisir une branch :
+   ```bash
+git checkout branch
+```
 
-2. Aller dans :
+3. Aller dans :
 
 ```text
 depot/verif/sim
 ```
 
-3. Charger l'environnement :
+4. Charger l'environnement :
 
 ```bash
 source setup-env.sh
 ```
 
-4. Modifier le test cible dans :
+5. Modifier le test cible dans :
 
 ```text
 /tests/custom/hello_world/?.c
 ```
 
-5. Lancer la commande :
+6. Lancer la commande :
 
 ```bash
 python3 cva6.py \
