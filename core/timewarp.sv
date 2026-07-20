@@ -82,17 +82,18 @@ module timewarp
             deblocage_lecture <= 1'b0;  
         end else begin 
 
-
+            // Si une lecture au commit,on ouvre la fenetre de comptage proctection + démarrage comptage hit 
             if (csr_lecture_cycle)begin
                 hit_enable <= 1'b1;
                 deblocage_lecture <= 1'b1;
             end 
-
+            // Comptage des hits en cours dans la fenetre 
             if ((dcache_hit_q>0) && load_commit_i && hit_enable ) begin
                 if (nombre_hit < 32'(MAX_HIT)) begin
                     nombre_hit <= nombre_hit + 1'b1;
                 end
             end  
+            //Compteur load en vol
             dcache_hit_q <= dcache_hit_q + 5'(dcache_hit_i) - 5'((dcache_hit_q>0) && load_commit_i) - 5'((dcache_hit_q>0) && load_invalid_i);
             // Sauvegarde de la charge en cours
             charge_q  <= charge_d;
@@ -116,7 +117,7 @@ module timewarp
          //nb_cycle , LECTURE_TIME);
             end else if (compteur_lecture != 0) begin
                 compteur_lecture <= compteur_lecture - 1 ; 
-                if (compteur_lecture == 1) begin
+                if (compteur_lecture == 1) begin // Fin du compteur on reset tout 
                     nombre_hit <= '0;
                     hit_enable <= 1'b0; 
                     hit_en <= 1'b0; 
