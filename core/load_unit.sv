@@ -178,7 +178,7 @@ module load_unit
 
   logic [63:0] nb_cycle;
   integer i;
-
+  // Timewarp
   always_ff @(posedge clk_i or negedge rst_ni) begin
   if (!rst_ni) begin
       latence_load_o    <= '0;
@@ -188,7 +188,9 @@ module load_unit
       end
   end else begin 
       nouvelle_valeur_o <= 0;
-      
+      // On utilise le même systeme avec les index de rentrer et retour du cache avec de nouveau tableau pour 
+      // enregistrer les cycles d'entrer et sortie du cache et faire la différence de cycle pour les load, 
+      //on envoie l'info au timewarp
       if (ldbuf_w) begin 
           load_cycle[ldbuf_windex] <= nb_cycle;
       end

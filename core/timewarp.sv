@@ -23,7 +23,7 @@ module timewarp
     parameter int LECTURE_TIME = 5000,    // Delais Lecture présent, HIT_TIME > 0 
     parameter int CHARGE_TIME = 5000, // temps ajouter au compteur de la charge 
     parameter int MAX_HIT = 20000,
-    parameter int TAILLETAB = 128
+    parameter int TAILLETAB = 128 // Taille des tableaux hit et miss
 
 
 ) (
@@ -45,7 +45,7 @@ module timewarp
     output logic [63:0] charge_o,
     //latence load retour
     input logic [63:0] latence_load_i,
-    //Retour d'un load
+    //Retour d'un load du cache
     input logic nouvelle_valeur_i,
     //miss dcache
     input logic dcache_miss_i
@@ -181,7 +181,7 @@ module timewarp
     logic [$clog2(TAILLETAB+1)-1:0] nb_hit;
     logic [$clog2(TAILLETAB+1)-1:0] nb_miss;
 
-
+    // Calcul moyenne et delta 
     always_comb begin : moyenne
 
         moyenne_hit  = (nb_hit  != 0) ? (cumul_hit  / 64'(nb_hit))  : '0;
@@ -207,7 +207,10 @@ module timewarp
                 tab_miss[i] <= '0;
             end 
         end else begin 
-
+            // Si retour du cache, on regarde ce que c'est, le miss a la priorité sur le hit.
+            // Pour le miss et le hit, on ajoute la valeur a leur cumul qui compte le temps total de tout le tableau
+            // et on retire a ce cumul la valeur qu'on enleve du tableau.
+            // Le miss et le Hit on a compteur en vol pour attendre l'arriver des informations de latence.
             if (nouvelle_valeur_i) begin
                 /*
                 if ((wait_hit_q>0) && (wait_miss_q>0)) begin 
