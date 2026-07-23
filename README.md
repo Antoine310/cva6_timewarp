@@ -78,7 +78,7 @@ Première version de TimeWarp utilisant une fonction de **stall** pour l'obfusca
 
 - `instr.c` : scénario d'activation de la solution (les instructions d'assembleur peuvent être déplacées).
     . Pour observer le comportement : activer les displays dans le fichier timewarp.sv
-    . Chercher le signal csr_lecture_cycle_i dans le fichier .iss pour voir les simulations d'attaques et l'activation du signal protect_en_o sur le      nombre de cycles indiqué en paramètre du module.
+    . Chercher le signal csr_lecture_cycle_i dans le fichier de resultat .iss pour voir les simulations d'attaques et l'activation du signal protect_en_o sur le nombre de cycles indiqué en paramètre du module.
 - `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre les deux.
 
 ---
@@ -100,8 +100,11 @@ Version utilisant une fonction de charge pour l'obfuscation.
 
 ### Tests
 
-- `instr.c` : scénario d'activation.
-- `attack.c` : attaque simple retournant le delta.
+- `instr.c` : scénario d'activation de la solution (les instructions d'assembleur peuvent être déplacées).
+    . Pour observer le comportement : activer les displays dans le fichier timewarp.sv
+    . Chercher le signal csr_lecture_cycle dans le fichier de resultat .iss pour voir les simulations d'attaques et l'activation du signal charge_o qui envoie la charge.
+- `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre les deux.
+
 
 ---
 
