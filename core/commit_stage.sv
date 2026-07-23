@@ -414,6 +414,7 @@ module commit_stage
       exception_o.valid = 1'b0;
     end
   end
+  /*
   int nb_cycle;
   always_ff @(posedge clk_i) begin
     if (rst_ni) begin
@@ -434,6 +435,6 @@ module commit_stage
       end
     end
     nb_cycle <= nb_cycle +1 ;
-end
+end*/
 
 endmodule

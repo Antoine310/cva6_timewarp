@@ -57,9 +57,9 @@ module timewarp
 
     always_comb begin : charge
         charge_d = charge_q; // On recupere la charge en cours 
-        // Si lecture csr et hit, on crée une offuscation en rajoutant une charge +10 qu'on envoie au csr_regfile.
+        // Si lecture csr et hit, on crée une offuscation en rajoutant une charge x qu'on envoie au csr_regfile.
         if (csr_lecture && nombre_hit > 0 ) begin 
-            charge_d = (nombre_hit << 5) + (nombre_hit << 4) + (nombre_hit << 3);
+            charge_d = (nombre_hit << 2) + nombre_hit;
         end else if (reset_charge) begin 
             charge_d = '0;
         end
