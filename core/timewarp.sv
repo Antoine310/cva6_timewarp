@@ -19,7 +19,7 @@ module timewarp
     parameter config_pkg::cva6_cfg_t CVA6Cfg = config_pkg::cva6_cfg_empty,
     parameter type dcache_req_o_t = logic,
     parameter int HIT_TIME = 10,    // Delais Hit présent 
-    parameter int STALL_COMMIT= 10 // temps Stall + 1 
+    parameter int STALL_COMMIT= 6 // temps Stall + 1 
 ) (
     // Subsystem Clock - SUBSYSTEM
     input logic clk_i,
@@ -85,6 +85,47 @@ module timewarp
 
         end 
     end
+    
+    logic protect_en_q;
+    logic hit_en_q;
+    logic csr_cycle_q;
+    logic [2:0] dcache_hit_c;    
+    int nb_cycle;
+    logic load_commit_q;
 
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+        if (!rst_ni) begin
+            protect_en_q  <= 1'b0;
+            hit_en_q      <= 1'b0;
+            dcache_hit_c  <= '0;
+            csr_cycle_q   <= 1'b0;
+            nb_cycle      <= 0;
+        end else begin
 
+            if (dcache_hit_c != dcache_hit_q)
+                $display("[cycle %0d] dcache_hit_cnt -> %0d", nb_cycle, dcache_hit_q);
+        
+            if (protect_en_o != protect_en_q)
+                $display("[cycle %0d] protect_en_o -> %0b \n", nb_cycle, protect_en_o);
+
+            if (hit_en != hit_en_q)
+                $display("[cycle %0d] hit_en -> %0b \n ", nb_cycle, hit_en);
+
+            if (csr_lecture_cycle_i != csr_cycle_q)
+                $display("[cycle %0d] csr_lecture_cycle -> %0b \n" , nb_cycle, csr_lecture_cycle_i);
+
+            if (load_commit_i != load_commit_q)
+                $display("[cycle %0d] load_commit_i -> %0b \n", nb_cycle, load_commit_i);
+
+    
+            protect_en_q <= protect_en_o;
+            hit_en_q <= hit_en;
+            csr_cycle_q <= csr_lecture_cycle_i;
+            dcache_hit_c <= dcache_hit_q;
+            load_commit_q <= load_commit_i;
+            nb_cycle <= nb_cycle + 1;
+
+        end
+    end
+    
 endmodule 
