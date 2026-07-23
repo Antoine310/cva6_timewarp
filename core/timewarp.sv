@@ -20,8 +20,8 @@ module timewarp
 #(
     parameter config_pkg::cva6_cfg_t CVA6Cfg = config_pkg::cva6_cfg_empty,
     parameter type dcache_req_o_t = logic,
-    parameter int HIT_TIME = 40,    // Delais Hit présent, HIT_TIME > 0 
-    parameter int CHARGE_TIME = 5 // temps ajouter au compteur de la charge 
+    parameter int HIT_TIME = 10,    // Delais Hit présent, HIT_TIME > 0 
+    parameter int CHARGE_TIME = 10 // temps ajouter au compteur de la charge 
 ) (
     // Subsystem Clock - SUBSYSTEM
     input logic clk_i,
@@ -53,9 +53,9 @@ module timewarp
     always_comb begin : charge
 
         charge_d = charge_q; // On recupere la charge en cours 
-        // Si lecture csr et hit, on crée une offuscation en rajoutant une charge +10 qu'on envoie au csr_regfile.
+        // Si lecture csr et hit, on crée une offuscation en rajoutant une charge x qu'on envoie au csr_regfile.
         if (csr_lecture && (hit_en)) begin 
-            charge_d = charge_q + 7'd10; 
+            charge_d = charge_q + 7'd7; 
         end else if (reset_charge) begin 
             charge_d = '0;
         end
@@ -112,5 +112,60 @@ module timewarp
         end 
     end
 
+    logic hit_en_q;
+    logic csr_cycle_q;
+    logic [2:0] dcache_hit_c;    
+    int nb_cycle;
+    logic load_commit_q;
+    logic lecture_csr_i_q;
+    logic csr_lecture_q;
+
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+        if (!rst_ni) begin
+            hit_en_q      <= 1'b0;
+            dcache_hit_c  <= '0;
+            csr_cycle_q   <= 1'b0;
+            nb_cycle      <= 0;
+            csr_lecture_q <= 1'b0;
+            lecture_csr_i_q <= 1'b0;
+        end else begin
+            if (csr_lecture_q != csr_lecture)
+                $display("[cycle %0d] csr_lecture -> %0d", nb_cycle, csr_lecture);
+            if (lecture_csr_i_q != lecture_csr_i)
+                $display("[cycle %0d] lecture_csr_i_q -> %0d", nb_cycle, lecture_csr_i);
+
+            if (dcache_hit_c != dcache_hit_q)
+                $display("[cycle %0d] dcache_hit_cnt -> %0d", nb_cycle, dcache_hit_q);
+
+            if (hit_en != hit_en_q)
+                $display("[cycle %0d] hit_en -> %0b \n ", nb_cycle, hit_en);
+
+            if (csr_lecture_cycle != csr_cycle_q)
+                $display("[cycle %0d] csr_lecture_cycle -> %0b \n" , nb_cycle, csr_lecture_cycle);
+
+            if (load_commit_i != load_commit_q)
+                $display("[cycle %0d] load_commit_i -> %0b \n", nb_cycle, load_commit_i);
+
+            if (load_commit_i && load_invalid_i )
+                $display("[cycle %0d] erreur load valid et invalid !\n", nb_cycle);
+
+            if (charge_o != charge_q)
+                $display("[cycle %0d] charge_o -> %0d", nb_cycle, charge_o);
+
+            if (charge_d != charge_q)
+                $display("[cycle %0d] charge_q=%0d charge_d=%0d charge_o=%0d",
+                        nb_cycle, charge_q, charge_d, charge_o);
+
+            hit_en_q <= hit_en;
+            csr_cycle_q <= csr_lecture_cycle;
+            dcache_hit_c <= dcache_hit_q;
+            load_commit_q <= load_commit_i;
+            csr_lecture_q <= csr_lecture;
+            lecture_csr_i_q <= lecture_csr_i;
+            
+            nb_cycle <= nb_cycle + 1;
+
+        end
+    end
 
 endmodule 
