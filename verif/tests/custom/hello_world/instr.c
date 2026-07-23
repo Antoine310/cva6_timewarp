@@ -33,6 +33,5 @@ int main() {
         : "t0", "x10", "x11", "x12", "x13", "memory"
     );
 
-    //printf("delta = %lu\n", c2 - c1);
     return 0;
 }
