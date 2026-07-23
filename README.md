@@ -18,16 +18,16 @@
 git clone git@github.com:Antoine310/cva6_timewarp.git
 ```
 
-2. Initialiser les sous-modules :
-
-```bash
-git submodule update --init --recursive
-```
-
-3. Choisir la branche souhaitée :
+2. Choisir la branche souhaitée :
 
 ```bash
 git checkout <nom_de_la_branche>
+```
+
+3. Initialiser les sous-modules :
+
+```bash
+git submodule update --init --recursive
 ```
 
 4. Charger l'environnement :
