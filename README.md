@@ -54,7 +54,11 @@ python3 cva6.py \
   --gcc_opts='-static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -g ../tests/custom/common/syscalls.c ../tests/custom/common/crt.S -lgcc -I../tests/custom/env -I../tests/custom/common' \
   --issrun_opts='+echo_uart'
 ```
+7. Resultat de test
 
+les resultats sont dans les fichiers : au Dossier Out_DateDuJours dans le fichier .log.iss au nom du programme de test : 
+  /cva6_timewarp/verif/sim/out_2026-07-23/veri-testharness_sim$
+  
 ---
 
 # Différentes branches disponibles
@@ -73,6 +77,8 @@ Première version de TimeWarp utilisant une fonction de **stall** pour l'obfusca
 ### Tests
 
 - `instr.c` : scénario d'activation de la solution (les instructions assembleur peuvent être déplacées).
+    . Pour observer le comportement : activer les displays dans le fichier timewarp.sv
+    . Chercher le signal csr_lecture_cycle_i dans le fichier .iss pour voir les simulations d'attaques et l'activation du signal protect_en_o.
 - `attack.c` : attaque simple retournant le delta en `printf`.
 
 ---
