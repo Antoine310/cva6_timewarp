@@ -29,12 +29,18 @@ git checkout <nom_de_la_branche>
 ```bash
 git submodule update --init --recursive
 ```
-4. Config environnement :
-   
-  - Si déja une toolchain et un précédent dépot cva6 configurer, il est possible de transferer directement le repertoire tools de votre dépot cva6 vers ce dépot sans autre installation.
-  - Si Pas de dépot cva6 déja installer il est necessaire de suivre a partir de l'étape 2 jusqu'a l'étape 6 le quick startup présent dans le README des autres branches,puis ensuite de faire :
-    export DV_SIMULATORS=veri-testharness
-    
+ 4. Configurer l'environnement
+
+- Si une toolchain ainsi qu'un dépôt CVA6 sont déjà installés, il est possible de copier directement le répertoire `tools` de ce dépôt dans celui-ci.
+
+```bash
+cp -a /path/to/cva6/tools .
+```
+- Si aucun dépôt CVA6 n'est déjà installé, il est nécessaire de suivre les étapes 2 à 6 du Quick Start présent dans le README de CVA6 (disponible sur les autres branches du dépôt), puis d'exécuter :
+
+```bash
+export DV_SIMULATORS=veri-testharness
+ ```
 5. Charger l'environnement :
 
 ```bash
@@ -44,7 +50,7 @@ source setup-env.sh
 6. Modifier le test cible dans :
 
 ```text
-/tests/custom/hello_world/?.c
+/tests/custom/hello_world/x.c
 ```
 
 7. Lancer la commande :
@@ -61,9 +67,11 @@ python3 cva6.py \
 ```
 8. Resultat de test
 
-les resultats sont dans les fichiers : au Dossier Out_DateDuJours dans le fichier .log.iss au nom du programme de test : 
-  /cva6_timewarp/verif/sim/out_2026-07-23/veri-testharness_sim$
-  
+Les résultats sont disponibles dans le dossier :
+
+```text
+verif/sim/out_<DateDuJour>/veri-testharness_sim/NomDuTest.log.iss
+```
 ---
 
 # Différentes branches disponibles
@@ -82,9 +90,9 @@ Première version de TimeWarp utilisant une fonction de **stall** pour l'obfusca
 ### Tests
 
 - `instr.c` : scénario d'activation de la solution (les instructions d'assembleur peuvent être déplacées).
-    . Pour observer le comportement : activer les displays dans le fichier timewarp.sv
-    . Chercher le signal csr_lecture_cycle_i dans le fichier de resultat .iss pour voir les simulations d'attaques et l'activation du signal protect_en_o sur le nombre de cycles indiqué en paramètre du module.
-- `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre les deux.
+    - Pour observer le comportement : activer les displays dans le fichier timewarp.sv
+    - Chercher le signal csr_lecture_cycle_i dans le fichier de résultat .iss pour voir les simulations d'attaques et l'activation du signal protect_en_o qui stall le commit.
+- `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre le Load miss et le Hit.
 
 ---
 
@@ -106,9 +114,9 @@ Version utilisant une fonction de charge pour l'obfuscation.
 ### Tests
 
 - `instr.c` : scénario d'activation de la solution (les instructions d'assembleur peuvent être déplacées).
-    . Pour observer le comportement : activer les displays dans le fichier timewarp.sv
-    . Chercher le signal csr_lecture_cycle dans le fichier de resultat .iss pour voir les simulations d'attaques et l'activation du signal charge_o qui envoie la charge.
-- `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre les deux.
+    - Pour observer le comportement : activer les displays dans le fichier timewarp.sv
+    - Chercher le signal csr_lecture_cycle dans le fichier de résultat .iss pour voir les simulations d'attaques et l'activation du signal charge_o qui envoie la charge au compteur de cycle.
+- `attack.c` : Schéma d'attaque avec un delta qui renvoie la différence de temps entre le Load miss et le Hit.
 
 
 ---
@@ -135,11 +143,14 @@ Version stable Multi-loads et enclaves.
 ### Tests
 
 - `test_enclave_multi.c` : comparaison de boucles avec CSR pour vérifier hit/miss.
-    . Dans le fichier resultat .iss chercher ctrl f : "miss delta" montre le nombre de miss sur la boucle ( 100 miss ou 100 hit par exemple ici )
-    et les prinft "miss loop" montre le nombre de cycle pour chaque boucle.
-      On peut activer les display et regarder les même signal que timewarp_charge et le compteur de hit pour verifier le fonctionnement.
+  - Rechercher `"miss delta"` dans le fichier `.iss` pour afficher le nombre de miss de la boucle (ici delta 1 : 100 miss, delta 2 : 0 miss donc 100 hits).
+  - Les affichages `"miss loop"` correspondent au nombre de cycles de chaque boucle.
+  - Il est également possible d'activer les `display` afin d'observer les mêmes signaux que pour `timewarp_charge` ainsi que le compteur de hits.
 - `hist_perso.c` : scénario d'attaque Prime+Probe.
-    . Dans le fichier resultat .iss chercher ctrl f : "Temps" permet de voir les valeur de référence et les valeurs du probe en nombre de cycle chacun. Il peut y avoir deux variations au niveau de l'attaque : une petite variation cumul_refTab = 819 , cumul_primeTab = 835 qui correspond a que la victime n'a pas été bien évincé avant de refaire la mesure comme le remplacement est aléatoire ça peut arriver, et une grande variation : cumul_refTab = 1108 , cumul_primeTab = 816 qui est l'utilisation du set cible par le processeur pour autre chose comme printf en simultané du test. Il est possible d'arriver à une obfuscation parfaite mais généralement il y a un décalage car cela dépend de l'obfuscation nécessaire et souvent du Pc qui lance car l'obfuscation nécessaire peut changer un peu.
+  - Rechercher `"Temps"` dans le fichier `.iss` pour afficher les temps de référence ainsi que les temps du probe.
+  - Deux variations peuvent être observées à cause d'événements irréguliers :
+    - une faible variation (`cumul_refTab = 819`, `cumul_primeTab = 835`) lorsque la victime n'a pas été complètement évincée (politique de remplacement aléatoire des ways du CVA6) ;
+    - une forte variation (`cumul_refTab = 1108`, `cumul_primeTab = 816`) lorsque le processeur utilise le même set pour d'autres opérations parallèles (par exemple `printf`).
 ---
 
 ## timewarp_dynamique
@@ -155,8 +166,9 @@ Version avec charge dynamique basée sur un tableau permettant d'estimer le delt
   - calcul de la latence dans le cache `//timewarp`
 
 ### Tests
-" Les résultats de cette version ne sont pas correct mais comme mentionner dans le rapport mais son principe fonctionne et est une piste intéressante futur dans les améliorations."
+
+" Les résultats de cette version ne sont pas satisfaisant mais comme mentionner dans le rapport mais son principe fonctionne et est une piste intéressante futur dans les améliorations."
 
 - `test_enclave_multi.c` : comparaison de boucles avec CSR pour vérifier hit/miss.
-     .On peut voir dans le fichier de resultat l'affichage en display des tableaux Miss et Hit qui calcule bien le delta en fonction des latences dans le cache.
+  - Les `display` permettent d'observer les tableaux `Hit` et `Miss` ainsi que le calcul dynamique du delta en fonction des latences du cache.
 - `hist_perso.c` : scénario d'attaque Prime+Probe.
