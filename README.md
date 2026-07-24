@@ -140,7 +140,6 @@ Version stable Multi-loads et enclaves.
       On peut activer les display et regarder les même signal que timewarp_charge et le compteur de hit pour verifier le fonctionnement.
 - `hist_perso.c` : scénario d'attaque Prime+Probe.
     . Dans le fichier resultat .iss chercher ctrl f : "Temps" permet de voir les valeur de référence et les valeurs du probe en nombre de cycle chacun. Il peut y avoir deux variations au niveau de l'attaque : une petite variation cumul_refTab = 819 , cumul_primeTab = 835 qui correspond a que la victime n'a pas été bien évincé avant de refaire la mesure comme le remplacement est aléatoire ça peut arriver, et une grande variation : cumul_refTab = 1108 , cumul_primeTab = 816 qui est l'utilisation du set cible par le processeur pour autre chose comme printf en simultané du test. Il est possible d'arriver à une obfuscation parfaite mais généralement il y a un décalage car cela dépend de l'obfuscation nécessaire et souvent du Pc qui lance car l'obfuscation nécessaire peut changer un peu.
-
 ---
 
 ## timewarp_dynamique
@@ -156,6 +155,8 @@ Version avec charge dynamique basée sur un tableau permettant d'estimer le delt
   - calcul de la latence dans le cache `//timewarp`
 
 ### Tests
+" Les résultats de cette version ne sont pas correct mais comme mentionner dans le rapport mais son principe fonctionne et est une piste intéressante futur dans les améliorations."
 
 - `test_enclave_multi.c` : comparaison de boucles avec CSR pour vérifier hit/miss.
+     .On peut voir dans le fichier de resultat l'affichage en display des tableaux Miss et Hit qui calcule bien le delta en fonction des latences dans le cache.
 - `hist_perso.c` : scénario d'attaque Prime+Probe.
