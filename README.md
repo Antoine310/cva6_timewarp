@@ -29,20 +29,25 @@ git checkout <nom_de_la_branche>
 ```bash
 git submodule update --init --recursive
 ```
-
-4. Charger l'environnement :
+4. Config environnement :
+   
+  - Si déja une toolchain et un précédent dépot cva6 configurer, il est possible de transferer directement le repertoire tools de votre dépot cva6 vers ce dépot sans autre installation.
+  - Si Pas de dépot cva6 déja installer il est necessaire de suivre a partir de l'étape 2 jusqu'a l'étape 6 le quick startup présent dans le README des autres branches,puis ensuite de faire :
+    export DV_SIMULATORS=veri-testharness
+    
+5. Charger l'environnement :
 
 ```bash
 source setup-env.sh
 ```
 
-5. Modifier le test cible dans :
+6. Modifier le test cible dans :
 
 ```text
 /tests/custom/hello_world/?.c
 ```
 
-6. Lancer la commande :
+7. Lancer la commande :
 
 ```bash
 python3 cva6.py \
@@ -54,7 +59,7 @@ python3 cva6.py \
   --gcc_opts='-static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -g ../tests/custom/common/syscalls.c ../tests/custom/common/crt.S -lgcc -I../tests/custom/env -I../tests/custom/common' \
   --issrun_opts='+echo_uart'
 ```
-7. Resultat de test
+8. Resultat de test
 
 les resultats sont dans les fichiers : au Dossier Out_DateDuJours dans le fichier .log.iss au nom du programme de test : 
   /cva6_timewarp/verif/sim/out_2026-07-23/veri-testharness_sim$
