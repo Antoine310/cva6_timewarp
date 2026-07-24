@@ -404,5 +404,18 @@ module wt_dcache
   end
 `endif
   //pragma translate_on
+  /*
+  int nb_cycle;
 
+  always @(posedge clk_i) begin
+  if (rd_req[1] && rd_ack[1] && rd_idx[1] == 0) begin
+    if (|rd_hit_oh)
+      $display("[cycle %0d] Set 0 HIT tag=%h way=%b",
+              nb_cycle, rd_tag[1], rd_hit_oh);
+    else
+      $display("[cycle %0d] Set 0 MISS tag=%h",
+              nb_cycle, rd_tag[1]);
+  end
+    nb_cycle <= nb_cycle + 1 ;
+  end*/
 endmodule  // wt_dcache

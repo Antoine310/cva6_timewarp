@@ -157,7 +157,7 @@ module timewarp
     end
 
 
-    /*
+    
     logic hit_en_q;
     logic csr_cycle_q;
     logic [4:0] dcache_hit_c;    
@@ -180,8 +180,17 @@ module timewarp
             hit_enable_q <= 1'b0;
             dcache_hit_i_q <=  1'b0;
         end else begin
+            
+            if (csr_lecture_cycle != csr_cycle_q)
+                $display("[cycle %0d] csr_lecture_cycle -> %0b \n" , nb_cycle, csr_lecture_cycle);
+            if (charge_o != charge_q)
+                $display("[cycle %0d] charge_o -> %0d", nb_cycle, charge_o);
+
+            
+            /*
             if (csr_lecture_q != csr_lecture)
                 $display("[cycle %0d] csr_lecture -> %0d", nb_cycle, csr_lecture);
+
             if (lecture_csr_i_q != lecture_csr_i)
                 $display("[cycle %0d] lecture_csr_i_q -> %0d", nb_cycle, lecture_csr_i);
 
@@ -192,18 +201,13 @@ module timewarp
             if (hit_en != hit_en_q)
                 $display("[cycle %0d] hit_en -> %0b \n ", nb_cycle, hit_en);
 
-            if (csr_lecture_cycle != csr_cycle_q)
-                $display("[cycle %0d] csr_lecture_cycle -> %0b \n" , nb_cycle, csr_lecture_cycle);
-
             if (load_commit_i != load_commit_q)
                 $display("[cycle %0d] load_commit_i -> %0b \n", nb_cycle, load_commit_i);
 
             if (load_commit_i && load_invalid_i )
                 $display("[cycle %0d] erreur load valid et invalid !\n", nb_cycle);
 
-            if (charge_o != charge_q)
-                $display("[cycle %0d] charge_o -> %0d", nb_cycle, charge_o);
-
+     
             if (charge_d != charge_q)
                 $display("[cycle %0d] charge_q=%0d charge_d=%0d charge_o=%0d",
                         nb_cycle, charge_q, charge_d, charge_o);
@@ -214,7 +218,7 @@ module timewarp
                 $display("[cycle %0d] hit_enable -> %0d", nb_cycle, hit_enable);
             if (dcache_hit_i_q != dcache_hit_i)
                 $display("[cycle %0d] dcache_hit_i -> %0d", nb_cycle, dcache_hit_i);
-            
+            */
             dcache_hit_i_q <= dcache_hit_i; 
             hit_enable_q <= hit_enable; 
             hit_en_q <= hit_en;
@@ -227,5 +231,5 @@ module timewarp
             nb_cycle <= nb_cycle + 1;
 
         end
-    end*/
+    end
 endmodule 

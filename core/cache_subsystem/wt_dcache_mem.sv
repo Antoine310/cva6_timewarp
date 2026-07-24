@@ -459,5 +459,47 @@ module wt_dcache_mem
 
 `endif
   //pragma translate_on
+/*
+  int nb_cycle;
+always @(posedge clk_i) begin
+  for (int w = 0; w < CVA6Cfg.DCACHE_SET_ASSOC; w++) begin
 
+    if (vld_req[w] &&
+        vld_we &&
+        (vld_addr == 0)) begin
+
+      $display(
+        "[cycle %0d] REPLACE set=%0d way=%0d old=%h new=%h",
+        nb_cycle,
+        vld_addr,
+        w,
+        tag_rdata[w],
+        wr_cl_tag_i
+      );
+    end
+  end
+    nb_cycle <= nb_cycle + 1;
+end
+
+always_ff @(posedge clk_i or negedge rst_ni) begin
+
+    if (rd_req_i[1] &&
+        rd_ack_o[1] &&
+        rd_idx_i[1] == 0 &&
+        rd_tag_i[1] == 36'h80007) begin
+
+      $display("===== FIRST PROBE ACCESS =====");
+
+      for (int w=0; w<CVA6Cfg.DCACHE_SET_ASSOC; w++) begin
+        $display(
+          "way=%0d valid=%0d tag=%h",
+          w,
+          rd_vld_bits_o[w],
+          tag_rdata[w]
+        );
+      end
+
+    end
+
+end*/
 endmodule  // wt_dcache_mem
