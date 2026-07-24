@@ -130,7 +130,11 @@ Version stable Multi-loads et enclaves.
 ### Tests
 
 - `test_enclave_multi.c` : comparaison de boucles avec CSR pour vérifier hit/miss.
+    . Dans le fichier resultat .iss chercher ctrl f : "miss delta" montre le nombre de miss sur la boucle ( 100 miss ou 100 hit par exemple ici )
+    et les prinft "miss loop" montre le nombre de cycle pour chaque boucle.
+      On peut activer les display et regarder les même signal que timewarp_charge et le compteur de hit pour verifier le fonctionnement.
 - `hist_perso.c` : scénario d'attaque Prime+Probe.
+    . Dans le fichier resultat .iss chercher ctrl f : "Temps" permet de voir les valeur de référence et les valeurs du probe en nombre de cycle chacun. Il peut y avoir deux variations au niveau de l'attaque : une petite variation cumul_refTab = 819 , cumul_primeTab = 835 qui correspond a que la victime n'a pas été bien évincé avant de refaire la mesure comme le remplacement est aléatoire ça peut arriver, et une grande variation : cumul_refTab = 1108 , cumul_primeTab = 816 qui est l'utilisation du set cible par le processeur pour autre chose comme printf en simultané du test. Il est possible d'arriver à une obfuscation parfaite mais généralement il y a un décalage car cela dépend de l'obfuscation nécessaire et souvent du Pc qui lance car l'obfuscation nécessaire peut changer un peu.
 
 ---
 
